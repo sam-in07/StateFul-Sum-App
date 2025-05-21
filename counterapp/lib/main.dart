@@ -25,6 +25,7 @@ class Myapp extends StatelessWidget {
 
 
 class MyHomepage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
      return MyHomepageUI ();
@@ -33,8 +34,24 @@ class MyHomepage extends StatefulWidget {
 }
 
 class MyHomepageUI  extends State<MyHomepage>{
+  Map<String,double> FromValue = {"Num1":0,"Num2":0 };
+  double sum = 0 ;
   @override
   Widget build(BuildContext context) {
+    MyInputOnchange(Inputkey, Inputvalue){
+      setState(() {
+        FromValue.update(Inputkey, (value)=> double.parse(Inputvalue));
+      });
+    }
+
+
+    addAllNum(){
+    setState(() { ///value change hocche update oijnno eta usee kora
+      sum = FromValue['Num1']!+ FromValue['Num2']!; //null na hole summation hoijabe
+    });
+
+  }
+
 
       return Scaffold(
         appBar: AppBar(
@@ -45,11 +62,23 @@ class MyHomepageUI  extends State<MyHomepage>{
           child: Column(
              mainAxisAlignment: MainAxisAlignment.start,
              children: [
-               Text("Sum = 0", style: HeadTextStyle(),),
+               Text(sum.toString(), style: HeadTextStyle(),),
+
                SizedBox(height: 20,),
-               TextFormField(decoration: AppInsputstyle("First number "),),
+
+               TextFormField(
+
+                 onChanged: (value){
+                   MyInputOnchange("Num1" , value);
+                 },
+
+                 decoration: AppInsputstyle("First number "),),
                SizedBox(height: 20,),
-               TextFormField(decoration: AppInsputstyle("Second Number "),),
+               TextFormField(
+                 onChanged: (value){
+                   MyInputOnchange("Num2" , value);
+                 },
+                 decoration: AppInsputstyle("Second Number "),),
                SizedBox(height: 20,), // etata tmr akta box to arekta box distance ta
                Container(
                  width: double.infinity, // eta lomba hoise akhon
@@ -58,7 +87,7 @@ class MyHomepageUI  extends State<MyHomepage>{
                      style: Appbuttonstyle(),
                      child: Text("Add"),
                      onPressed: () {
-
+                       addAllNum();
                      },
                  ),
                )
